@@ -42,7 +42,7 @@ function AddMovie() {
             <NavLink to="/" className="btn btn-primary"> List Movie </NavLink>
         </div>
         <div>
-            <Form onChange={handleSubmit}>
+            <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formJudul">
                     <Form.Label>Judul</Form.Label>
                     <Form.Control 

@@ -1,8 +1,22 @@
+import { lazy } from "react";
 import { createBrowserRouter } from "react-router";
 
 const router = createBrowserRouter([
     {
-        path : "/", //alamat dari sebuah page
+        path: "/",
+        children: [{
+            index : true,
+            lazy:{
+                Component : async () => {
+                    const component = await import("../pages/auth/signup/SignUp.tsx")
+                        return component.default
+                }
+            }
+            }
+        ]
+    },
+    {
+        path : "/movie", //alamat dari sebuah page
         children :[
             {
                 index : true,
