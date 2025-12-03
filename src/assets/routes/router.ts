@@ -1,4 +1,3 @@
-import { lazy } from "react";
 import { createBrowserRouter } from "react-router";
 
 const router = createBrowserRouter([
@@ -12,6 +11,16 @@ const router = createBrowserRouter([
                         return component.default
                 }
             }
+        },
+            {
+                path: "signIn",
+                lazy: {
+                    Component: async() => {
+                        const component = await import("../pages/auth/signin/SignIn.tsx")
+                        return component.default
+                    }
+                }
+        
             }
         ]
     },

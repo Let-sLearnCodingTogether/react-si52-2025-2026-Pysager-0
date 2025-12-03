@@ -1,17 +1,15 @@
 import { useState, type ChangeEvent, type FormEvent } from "react"
 import { Button, Form } from "react-bootstrap"
-import ApiClient from "../../../../utils/ApiClient"
 import { NavLink } from "react-router"
+import ApiClient from "../../../../utils/ApiClient"
 
-interface SignUpForm{
-    username : string,
+interface SignInForm{
     email : string,
     password : string
 }
 
-function SignUp(){
-    const [form, setForm] = useState<SignUpForm>({
-        username: "",
+function SignIn(){
+    const [form, setForm] = useState<SignInForm>({
         email: "",
         password: ""
     })
@@ -29,52 +27,39 @@ function SignUp(){
         event.preventDefault();
 
         try {
-            const response = await ApiClient.post("/signup",form)
+            const response = await ApiClient.post("/signin",form)
             console.log(response);
         } catch (error) {
             console.log(error);
         }
     }
-    
 
-   return <div className="container mx-auto">
-    <h1>Sign Up</h1>
-    <Form onSubmit={onSubmit}>
-        <Form.Group className="mb-3" controlId="formUsername">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control 
-                    value={form.username}
-                    onChange={onHandleChange}
-                        name="username" 
-                        type="text" 
-                        placeholder="Username"/> 
-                </Form.Group>
+
+    return <div className="container mx-auto">
+        <h1>SignIn page</h1>
+         <Form onSubmit={onSubmit}>
                 <Form.Group className="mb-3" controlId="formEmail">
                     <Form.Label>Email</Form.Label>
                     <Form.Control
-                    value={form.email}
+                     value={form.email}
                     onChange={onHandleChange}
                         name="email" 
-                        type="text" 
+                        type="email" 
                         placeholder="Email"/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formPassword">
                     <Form.Label>Password</Form.Label>
                     <Form.Control
-                    value={form.password}
+                     value={form.password}
                     onChange={onHandleChange}
                         name="password" 
                         type="password" 
                         placeholder="Password"/>
                 </Form.Group>
                 <br></br>
-                <Button type ="submit" variant="primary">Simpan</Button> 
-                <div className="mb-3 mx-auto">
-                <NavLink to="/signin"><Button type ="submit" variant="primary">Signin</Button></NavLink>
-                </div>               
+                <Button type ="submit" variant="primary">Simpan</Button>              
             </Form> 
         </div>
 }
 
-
-export default SignUp
+export default SignIn
