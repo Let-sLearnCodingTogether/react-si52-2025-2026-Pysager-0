@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from "react"
 import { Button, Form } from "react-bootstrap"
-import { NavLink } from "react-router"
+import { NavLink, useNavigate } from "react-router"
 import ApiClient from "../../../../utils/ApiClient"
 
 interface SignInForm{
@@ -9,6 +9,8 @@ interface SignInForm{
 }
 
 function SignIn(){
+    const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false)
     const [form, setForm] = useState<SignInForm>({
         email: "",
         password: ""
@@ -25,12 +27,20 @@ function SignIn(){
 
     const onSubmit = async (event : FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
+        setIsLoading(true)
         try {
             const response = await ApiClient.post("/signin",form)
             console.log(response);
+            if(response.status === 200){
+                localStorage.setItem("AuthToken", response.data.data.token)
+                navigate("/movie", {
+                    replace : true
+                })
+            }
         } catch (error) {
             console.log(error);
+        }finally{
+            setIsLoading(false)
         }
     }
 
@@ -57,7 +67,10 @@ function SignIn(){
                         placeholder="Password"/>
                 </Form.Group>
                 <br></br>
-                <Button type ="submit" variant="primary">Simpan</Button>              
+                <Button type ="submit" variant="primary" 
+                disabled={isLoading}>
+                    {isLoading ? "Loading..." : "Sign In"}</Button>      
+                    <NavLink to="/">Sign Up</NavLink>        
             </Form> 
         </div>
 }
